@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Table</title>
+    <meta charset="utf-8">
+    <style>
+        div.group-op-container {
+            height: 30px;
+        }
+        button.del_button {
+            display: none;
+        }
+        tr.oddr:hover, tr.evenr:hover {
+            background-color: greenyellow;
+        }
+        table,
+        thead,
+        tbody,
+        tr,
+        th,
+        td {
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+
+        th {
+            background-color: #e63fa6;
+        }
+
+        tr.oddr {
+            background-color: #dfdfdf;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="group-op-container">
+        <div class="group-op nodisplay">
+            <button class="del_button" id="del_button">Xóa</button>
+        </div>
+    </div>
+    <table id="tbl">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="chkall" /></th>
+                <th>Họ tên</th>
+                <th>Ngày sinh</th>
+                <th>Giới tính</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="oddr">
+                <td><input type="checkbox" name="chk" /></td>
+                <td>Hoàng Văn A</td>
+                <td>2/2/2002</td>
+                <td>Nam</td>
+            </tr>
+            <tr class="evenr">
+                <td><input type="checkbox" name="chk" /></td>
+                <td>Trần Thị B</td>
+                <td>1/1/2001</td>
+                <td>Nữ</td>
+            </tr>
+            <tr class="oddr">
+                <td><input type="checkbox" name="chk" /></td>
+                <td>Đào Xuân C</td>
+                <td>3/3/2003</td>
+                <td>Nam</td>
+            </tr>
+            <tr class="evenr">
+                <td><input type="checkbox" name="chk" /></td>
+                <td>Tống Minh D</td>
+                <td>1/1/2002</td>
+                <td>Nam</td>
+            </tr>
+            <tr class="oddr">
+                <td><input type="checkbox" name="chk" /></td>
+                <td>Nguyễn Trà E</td>
+                <td>3/6/2002</td>
+                <td>Nữ</td>
+            </tr>
+        </tbody>
+    </table>
+    <script type="text/javascript">
+        var check = document.getElementsByName('chk');
+        var delButton = document.getElementById('del_button')
+        var chkall = document.getElementById('chkall');
+        
+
+        
+        for (let i = 0; i < check.length; i++) {
+            check[i].onchange = function () {
+                
+                if (check[i].checked) {
+                    let allUncheck = true;
+                    let chked = true;
+                    for (let j = 0; j < check.length; j++) {
+                        if (!check[j].checked) {
+                            chked = false;
+                            break;
+                        }
+                    }
+                    if (chked) chkall.checked =true;
+                    
+                    delButton.style.display = 'inline-block';
+                    this.parentNode.parentNode.style.backgroundColor = 'yellow';
+                    
+                } else {
+                    let allUncheck = true;
+                    
+                    for (let j = 0; j < check.length; j++) {
+                        if (check[j].checked) {
+                            allUncheck = false;
+                            break;
+                        }
+                    }
+                    
+                    for (let j = 0; j < check.length; j++) {
+                        
+                        if (!check[j].checked) {
+                            chkall.checked=false;
+                            break;
+                        }
+                        chkall.checked = true;
+                    }
+                    if (allUncheck) {
+                        delButton.style.display = 'none';
+                    }
+                    let r = this.parentNode.parentNode;
+                    if (r.className == 'oddr') {
+                        r.style.backgroundColor = '#dfdfdf';
+                    } else {
+                        r.style.backgroundColor = '#f0f0f0';
+                    }
+                }
+                
+            }
+        }
+        
+        
+       
+        chkall.onchange = function () {
+            if (chkall.checked) {
+                delButton.style.display = 'inline-block';
+                for (let i = 0; i < check.length; i++) {
+                    check[i].checked = true;
+                    check[i].parentNode.parentNode.style.backgroundColor = 'yellow';
+                }
+            } else {
+                delButton.style.display = 'none';
+                for (let i = 0; i < check.length; i++) {
+                    check[i].checked = false;
+                    let r = check[i].parentNode.parentNode;
+                    if (r.className == 'oddr') {
+                        r.style.backgroundColor = '#dfdfdf';
+                    } else {
+                        r.style.backgroundColor = '#f0f0f0';
+                    }
+                }
+            }
+        }
+        delButton.onclick = function() {
+            for (let i = check.length-1; i >= 0; i--) {
+                if (check[i].checked) {
+                    
+                    check[i].parentNode.parentNode.remove();
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

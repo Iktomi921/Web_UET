@@ -1,0 +1,88 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON</title>
+    <style>
+        td,
+        th {
+            border: 1px solid #000000;
+            text-align: left;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <span id="data">
+        <script type="text/javascript">
+            // let xhttp = new XMLHttpRequest();
+            // xhttp.onreadystatechange = () => {
+            //     if (this.readyState == 4 && this.status == 200) {
+            //         document.getElementById("data").innerHTML = this.responseText;
+            //         let objArr = JSON.parse(this.responseText);
+            //         console.log(objArr.length);
+            //     }
+
+            // }
+
+            // xhttp.open("GET", "./data.json", true);
+            // xhttp.send(null)
+        
+            fetch('data.json').then(res => {
+                if (res.status == 200) {
+                    res.json().then(objArr => {
+                        console.log(objArr);
+                        addTable(objArr)
+                    })
+                }
+            })
+
+            function addTable(obj) {
+                obj.forEach(res => {
+                    console.log(res);
+                })
+                const mytable = document.getElementById("html-data-table");
+                obj.forEach(todo => {
+                let newRow = document.createElement("tr");
+                Object.values(todo).forEach((value) => {
+                    let cell = document.createElement("td");
+                    cell.innerText = value;
+                    newRow.appendChild(cell);
+                })
+                mytable.appendChild(newRow);
+            });
+
+            }
+
+
+            function renderDataInTheTable(todos) {
+            const mytable = document.getElementById("html-data-table");
+            todos.forEach(todo => {
+                let newRow = document.createElement("tr");
+                Object.values(todo).forEach((value) => {
+                    let cell = document.createElement("td");
+                    cell.innerText = value;
+                    newRow.appendChild(cell);
+                })
+                mytable.appendChild(newRow);
+            });
+        }
+        </script>
+    </span>
+    <div id="data-table">
+        <table id="html-data-table">
+            <tr>
+                <th>Họ và tên</th>
+                <th>Tuổi</th>
+                <th>Số lượng/Tên mẫu xe</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>My todo 1</td>
+                <td>false</td>
+            </tr>
+        </table>    
+    </div>
+</body>
+</html>

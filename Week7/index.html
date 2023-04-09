@@ -1,0 +1,304 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Nhập</title>
+    <style>
+        .musthave {
+            background-color: #00ffff;
+            border: 1px solid gray;
+            width: 250px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+        div {
+            margin-top: 5px;
+            
+        }
+        .optional {
+            background-color: #f1f1f1;
+            border: 1px solid gray;
+            width: 250px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+        label {
+            width: 120;
+            display: inline-block;
+            margin-top: 5px;
+        
+        }
+        div.note{
+            vertical-align: top;
+        }
+        form div {
+            margin-top: 5px;
+        }
+        
+        button {
+            padding: 10px;
+            background: #2196F3;
+            color: white;
+            border: 1px solid #2196F3;
+            cursor: pointer;
+            
+        }
+        label.radio-container {
+            width: auto;
+            margin: 0px;
+            display:inline;
+        }
+        .error {
+            color: red;
+        }
+
+    </style>
+</head>
+
+<body>
+    <form id="form">
+        <div>
+            <label for="ht">Họ tên:</label>
+            <input type="text" name="ht" id="ht" class="musthave">
+            <span id="loiht" class="error"></span>
+        </div>
+        <div>
+            <label for="address">Địa chỉ</label>
+            <input type="text" name="address" id="address" class="optional">
+
+        </div>
+        <div>
+            <label>Giới tính</label>
+            <input type="radio" name="gender" value="Nam" checked="checked">
+            <label class="radio-container">Nam</label>
+            <input type="radio" name="gender" value="Nữ">
+            <label class="radio-container">Nữ</label>
+        </div>
+        <div>
+            <label for="birthday">Ngày sinh:</label>
+            <input type="date" name="birthday" id="birthday" class="musthave">
+            <span id="loingaysinh" class="error"></span>
+        </div>
+
+        <div>
+            <label for="email">E-mail:</label>
+            <input type="email" name="email" id="email" class="musthave">
+            <span id="loiemail" class="error"></span>
+        </div>
+        <div>
+            <label for="phone">Điện thoại:</label>
+            <input type="text" name="phone" id="phone" class="optional">
+            <span id="lóidt"></span>
+        </div>
+        <div>
+            <label>Khoá đăng ký</label>
+            <input type="checkbox" name="key1" id="key1"> Tiếng anh
+            <input type="checkbox" name="key2" id="key2"> Quản trị
+            <input type="checkbox" name="key3" id="key3"> CNTT
+        </div>
+        <div>
+            <label for="username">Tên sử dụng:</label>
+            <input type="text" name="username" id="username" class="musthave">
+            <span id="loiusername" class="error"></span>
+        </div>
+        <div>
+            <label for="password">Mật khẩu:</label>
+            <input type="password" name="password" id="password" class="optional">
+            <span id="loipass" class="error"></span>
+        </div>
+        <div>
+            <label for="repassword">Gõ lại mật khẩu:</label>
+            <input type="password" name="repassword" id="repassword" class="optional">
+            <span id="loirepass" class="error"></span>
+        </div>
+        <div class="note">
+            <label for="note" style="vertical-align:top">Ghi chú:</label>
+            <textarea name="note" id="note" class="optional"></textarea>
+        </div>
+        <br>
+        <div>
+            <div>
+                <label for="avatar">Ảnh chân dung:</label>
+                <input type="file"> <br>
+            </div>
+            <div>
+                <label for="space"></label>
+                <button id="accept">Chấp nhận</button>
+                <button id="skip">Bỏ qua</button>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        document.getElementById('ht').focus();
+        document.getElementById('form').onkeypress = function(e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+            }
+        }
+        document.getElementById('ht').onkeypress = function(e) {
+            if (e.keyCode == 13) {
+                document.getElementById('address').focus();
+            }
+        }
+        
+        document.getElementById('ht').onblur = function(){
+            normalizeName();
+        }
+        document.getElementById('address').onkeypress = function(e) {
+            if (e.keyCode == 13) {
+                document.getElementById('birthday').focus();
+            }
+        }
+        document.getElementById('birthday').onkeypress = function(e) {
+            if (e.keyCode == 13) {
+                document.getElementById('email').focus();
+            }
+        }
+        document.getElementById('email').onkeypress = function(e) {
+            if (e.keyCode == 13) {
+                document.getElementById('phone').focus();
+            }
+        }
+        document.getElementById('phone').onkeypress = function(e) {
+            if (e.keyCode == 13) {
+                document.getElementById('username').focus();
+            }
+        }
+        document.getElementById('username').onkeypress = function(e) {
+            if (e.keyCode == 13) {
+                document.getElementById('password').focus();
+            }
+        }
+        document.getElementById('password').onkeypress = function(e) {
+            if (e.keyCode == 13) {
+                document.getElementById('repassword').focus();
+            }
+        }
+        document.getElementById('repassword').onkeypress = function(e) {
+            if (e.keyCode == 13) {
+                document.getElementById('note').focus();
+            }
+        }
+
+        
+
+        function normalizeName() {
+            oldName = document.getElementById('ht').value;
+            let words = oldName.split(' ');
+            let newNames = words.map(function(word){
+                return word[0].toUpperCase() + word.slice(1).toLowerCase();
+            });
+            document.getElementById('ht').value = newNames.join(' ');
+        }
+        function checkEmail(email) {
+            return email.toLowerCase().match(
+                /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+            );
+            
+        }
+        function checkPhone(phone) {
+            return phone.match(
+                /^0[0-9]{9,10}$/
+            );
+        }
+        function checkDate(date) {
+            return date.match(
+                /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/
+            );
+        }
+        function checkPassword(password) {
+            return password.match(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+            );
+        }
+        function checkRepassword(repassword) {
+            return repassword.match(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+            );
+        }
+        document.getElementById('accept').onclick = function(e) {
+            name = document.getElementById('ht').value;
+            check = true;
+            
+
+            if (name == "") {
+                document.getElementById('loiht').innerHTML = "Họ tên không được để trống"; 
+                e.preventDefault();
+            }
+            else {
+                document.getElementById('loiht').innerHTML = "";
+            }
+
+            birthday = document.getElementById('birthday').value;
+            if (birthday == "") {
+                document.getElementById('loingaysinh').innerHTML = "Ngày sinh không được để trống"; 
+                e.preventDefault();
+            }
+            else {
+                document.getElementById('loingaysinh').innerHTML = "";
+            }
+            
+            email = document.getElementById('email').value;
+            if (email == "") {
+                document.getElementById('loiemail').innerHTML = "Email không được để trống"; 
+                e.preventDefault();
+            }
+            else {
+                document.getElementById('loiemail').innerHTML = "";
+            }
+
+            username = document.getElementById('username').value;
+
+            if (username == "") {
+                document.getElementById('loiusername').innerHTML = "Tên đăng nhập không được để trống"; 
+                e.preventDefault();
+                
+            }
+            else {
+                document.getElementById('loiusername').innerHTML = "";
+            }
+            if (!checkEmail(email)) {
+                document.getElementById('loiemail').innerHTML = "Email không hợp lệ"; 
+                e.preventDefault();
+            }
+
+            if (!checkPhone(phone)) {
+                document.getElementById('loisdt').innerHTML = "Số điện thoại không hợp lệ"; 
+                e.preventDefault();
+            }
+
+            if (!checkDate(birthday)) {
+                document.getElementById('loingaysinh').innerHTML = "Ngày sinh không hợp lệ"; 
+                e.preventDefault();
+            }
+
+            password = document.getElementById('password').value;
+
+            if (!checkPassword(password)) {
+                document.getElementById('loipass').innerHTML = "Mật khẩu không hợp lệ"; 
+                e.preventDefault();
+            }
+
+            repassword = document.getElementById('repassword').value;
+
+
+            if (!checkRepassword(repassword)) {
+                document.getElementById('loirepass').innerHTML = "Mật khẩu không hợp lệ"; 
+                e.preventDefault();
+            }
+            
+            if (password != repassword) {
+                document.getElementById('loirepass').innerHTML = "Mật khẩu không khớp"; 
+                e.preventDefault();
+            }
+            document.getElementById('form').submit();
+
+            
+        }
+
+    </script>
+</body>
+
+</html>

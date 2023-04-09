@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách</title>
+    <style>
+
+        div.button-box {
+            height: 30px;
+        }
+        button.del-button {
+            display: none;
+            height: 21.5px;
+            padding: 1px 6px;
+        }
+        table,
+        thead,
+        tbody,
+        tr,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #fc05a9;
+        }
+
+        tr.oddrw:hover, tr.evenrw:hover {
+            background-color: rgb(26, 181, 26);
+        }
+
+        tr.oddrw{
+            background-color: #dfdfdf;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="button-box">
+        <button class="del-button" id="del-button">Xóa</button>
+    </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="checkboxAll" /></th>
+                <th>Họ tên</th>
+                <th>Ngày sinh</th>
+                <th>Giới tính</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="oddrw">
+                <td><input type="checkbox" name="checkbox" /></td>
+                <td>Hoàng Văn A</td>
+                <td>2/2/2002</td>
+                <td>Nam</td>
+            </tr>
+            <tr class="evenrw">
+                <td><input type="checkbox" name="checkbox" /></td>
+                <td>Trần Thị B</td>
+                <td>1/1/2001</td>
+                <td>Nữ</td>
+            </tr>
+            <tr class="oddrw">
+                <td><input type="checkbox" name="checkbox" /></td>
+                <td>Đào Xuân C</td>
+                <td>3/3/2003</td>
+                <td>Nam</td>
+            </tr>
+            <tr class="evenrw">
+                <td><input type="checkbox" name="checkbox" /></td>
+                <td>Tống Minh D</td>
+                <td>1/1/2002</td>
+                <td>Nam</td>
+            </tr>
+            <tr class="oddrw">
+                <td><input type="checkbox" name="checkbox" /></td>
+                <td>Nguyễn Trà E</td>
+                <td>3/6/2002</td>
+                <td>Nữ</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script type="text/javascript">
+        var checkBox = document.getElementsByName('checkbox');
+        var delButton = document.getElementById('del-button')
+        var checkboxAll = document.getElementById('checkboxAll');
+        
+        checkboxAll.onchange = () => {
+            if (checkboxAll.checked) {
+                delButton.style.display = 'block';
+                for (let i = 0; i < checkBox.length; i++) {
+                    checkBox[i].checked = true;
+                    checkBox[i].parentNode.parentNode.style.backgroundColor = 'yellow';
+                }
+            } else {
+                delButton.style.display = 'none';
+                for (let i = 0; i < checkBox.length; i++) {
+                    checkBox[i].checked = false;
+                    if (checkBox[i].parentNode.parentNode.className == 'evenrw') {
+                        checkBox[i].parentNode.parentNode.style.backgroundColor = '#f0f0f0';
+                    } else {
+                        checkBox[i].parentNode.parentNode.style.backgroundColor = '#dfdfdf';
+                    }
+                }
+            }
+        }
+        
+        for (let i = 0; i < checkBox.length; i++) {
+            checkBox[i].onchange = () => {
+                if (checkBox[i].checked) {
+                    let boxChecked = true;
+                    for (let j = 0; j < checkBox.length; j++) {
+                        if (!checkBox[j].checked) {
+                            boxChecked = false;
+                            break;
+                        }
+                    }
+                    if (boxChecked) checkboxAll.checked = true;
+                    
+                    delButton.style.display = 'inline-block';
+                    checkBox[i].parentNode.parentNode.style.backgroundColor = 'yellow';
+                    
+                } else {
+                    let allUncheck = true;
+                    for (let j = 0; j < checkBox.length; j++) {
+                        if (checkBox[j].checked) {
+                            allUncheck = false;
+                            break;
+                        }
+                    }
+                    
+                    for (let j = 0; j < checkBox.length; j++) {
+                        
+                        if (!checkBox[j].checked) {
+                            checkboxAll.checked=false;
+                            break;
+                        }
+                        checkboxAll.checked = true;
+                    }
+                    if (allUncheck) {
+                        delButton.style.display = 'none';
+                    }
+                    let x = this.parentNode.parentNode;
+                    if (x.parentNode.parentNode.className == 'evenrw') {
+                       x.parentNode.parentNode.style.backgroundColor = '#f0f0f0';
+                    } else {
+                        x.parentNode.parentNode.style.backgroundColor = '#dfdfdf';
+                    }
+                }
+                
+            }
+        }
+        
+        delButton.onclick = function() {
+            for (let i = checkBox.length-1; i >= 0; i--) {
+                if (checkBox[i].checked) {
+                    checkBox[i].parentNode.parentNode.remove();
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>
